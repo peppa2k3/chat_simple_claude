@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: mongo:6.0
+    container_name: mongo_chatsimple
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin1
+      - MONGO_INITDB_ROOT_PASSWORD=pass1
+    restart: always
+
+  backend:
+    build: ./backend
+    image: peppa2k3/chatsimpledevops28be:2.0
+    container_name: be_chat_2
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://admin1:pass1@db:27017/chatapp?authSource=admin
+      - CORS_ORIGIN=http://dangngochai.io.vn
+      - NODE_ENV=prod
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    image: peppa2k3/chatsimpledevops28:2.0
+    container_name: fe_chat
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      - PORT=8888
+      - REACT_APP_BACKEND_URL=http://dangngochai.io.vn:3000
+    depends_on:
+      - backend
