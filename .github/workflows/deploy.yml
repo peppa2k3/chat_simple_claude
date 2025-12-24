@@ -2,7 +2,7 @@ name: CI-CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 jobs:
   build-and-deploy:
@@ -19,13 +19,13 @@ jobs:
 
       - name: Build & Push Backend
         run: |
-          docker build -t peppa2k3/be_chat:2.1 ./backend
-          docker push peppa2k3/be_chat:2.1
+          docker build -t peppa2k3/chatsimpledevops28be:2.1 ./backend
+          docker push peppa2k3/chatsimpledevops28be:2.1
 
       - name: Build & Push Frontend
         run: |
-          docker build -t peppa2k3/fe_chat:2.1 ./frontend
-          docker push peppa2k3/fe_chat:2.1
+          docker build -t peppa2k3/chatsimpledevops28:2.1 ./frontend
+          docker push peppa2k3/chatsimpledevops28:2.1
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1
