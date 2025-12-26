@@ -2,12 +2,12 @@ services:
   db:
     image: mongo:6.0
     container_name: mongo_chatsimple
-    ports:
-      - "27017:27017"
+    restart: always
+    expose:
+      - "27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin1
       - MONGO_INITDB_ROOT_PASSWORD=pass1
-    restart: always
     volumes:
       - mongo_data:/data/db
 
@@ -24,8 +24,9 @@ services:
       - NODE_ENV=prod
     depends_on:
       - db
+
   frontend:
-    image: peppa2k3/chatsimpledevops28:2.0
+    image: peppa2k3/chatsimpledevops28:2.1 # image đã rebuild
     container_name: fe_chat
     restart: always
     ports:
@@ -35,16 +36,14 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - ./certbot/www:/var/www/certbot
       - ./certs:/etc/letsencrypt
-    environment:
-      - PORT=80
-      - REACT_APP_BACKEND_URL=https://chat.dangngochai.io.vn/api
     depends_on:
       - backend
+
   certbot:
     image: certbot/certbot
-    container_name: certbot
     volumes:
       - ./certbot/www:/var/www/certbot
       - ./certs:/etc/letsencrypt
+
 volumes:
   mongo_data:
