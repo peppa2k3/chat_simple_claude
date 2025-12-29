@@ -5,7 +5,7 @@ import "./App.css";
 
 const BACKEND_URL =
   process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
-
+const BACKEND_SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -45,7 +45,7 @@ function App() {
     fetchMessages();
 
     // Setup socket connection
-    socketRef.current = io(BACKEND_URL);
+    socketRef.current = io(BACKEND_SOCKET_URL);
 
     socketRef.current.on("connect", () => {
       console.log("Connected to server");
