@@ -10,20 +10,23 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pass1
     volumes:
       - mongo_data:/data/db
+    networks: [chat-app]
 
   backend:
     image: peppa2k3/chatsimpledevops28be:2.0
     container_name: be_chat_2
     restart: always
-    expose:
-      - "3000"
+    # expose:
+    #   - "3000"
+    ports:
+      - "127.0.0.1:3000:3000"
     environment:
-      - PORT=3000
       - MONGODB_URI=mongodb://admin1:pass1@db:27017/chatapp?authSource=admin
-      - CORS_ORIGIN=https://chat.dangngochai.io.vn
+      - CORS_ORIGIN=https://dangngochai.io.vn
       - NODE_ENV=prod
     depends_on:
       - db
+    networks: [chat-app]
 
   frontend:
     image: peppa2k3/chatsimpledevops28:2.1 # image đã rebuild
@@ -32,12 +35,17 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - PORT=80
+      - REACT_APP_BACKEND_URL=https://api.dangngochai.io.vn
+      - REACT_APP_SOCKET_URL=https://api.dangngochai.io.vn
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./certbot/www:/var/www/certbot
       - ./certs:/etc/letsencrypt
     depends_on:
       - backend
+    networks: [chat-app]
 
   certbot:
     image: certbot/certbot
@@ -47,3 +55,5 @@ services:
 
 volumes:
   mongo_data:
+networks:
+  chat-app:
