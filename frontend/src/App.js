@@ -4,7 +4,7 @@ import axios from "axios";
 import "./App.css";
 
 const BACKEND_URL =
-  process.env.REACT_APP_BACKEND_URL || "https://dangngochai.io.vn/api";
+  process.env.REACT_APP_BACKEND_URL || "https://api.dangngochai.io.vn";
 const BACKEND_SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 function App() {
   const [messages, setMessages] = useState([]);
