@@ -5,7 +5,8 @@ import "./App.css";
 
 const BACKEND_URL =
   process.env.REACT_APP_BACKEND_URL || "https://api.dangngochai.io.vn";
-const BACKEND_SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+const BACKEND_SOCKET_URL =
+  process.env.REACT_APP_SOCKET_URL || "https://api.dangngochai.io.vn";
 function App() {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
